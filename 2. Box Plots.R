@@ -60,7 +60,7 @@ dev.off()
 
 #### Sectors
 
-pdf ("Box Plot Sectors.pdf", width = 12, height = 8)
+pdf ("Outputs\\Box Plot Sectors.pdf", width = 12, height = 8)
 
 par(mfrow = c(1, 3), oma = c(2, 15, 2 ,2), mar = c(5,0,1,0))
 

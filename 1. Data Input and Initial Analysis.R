@@ -5,10 +5,8 @@ require (gridExtra)
 require (pvclust)
 require (reshape2)
 
-setwd("H:\\ODEMM\\Celtic 24_01_18")
-
 # read in data
-data = read.csv("Celtic SeaS Pressure Assessment PB 24_01_18 Consistent Resilience.csv")
+data = read.csv("Data//Celtic SeaS Pressure Assessment PB 24_01_18 Consistent Resilience.csv")
 
 # remove rows with No overlap
 data = data[!data$Overlap == "NO", ]

@@ -55,3 +55,6 @@ data$LN.IR = log(data$ImpactRisk)
 data$Ryr =  (data$Resilience.Score + data$Persistence.Score) *100
 
 data$TotalRisk = data$ImpactRisk * data$RecoveryLag
+
+BPIS = data
+names(BPIS)[names(BPIS) == 'Ecological.Characteristic'] <- 'EcoChar'

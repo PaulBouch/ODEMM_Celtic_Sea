@@ -8,12 +8,13 @@ require (reshape2)
 # read in data
 data = read.csv("Data//Celtic SeaS Pressure Assessment PB 24_01_18 Consistent Resilience.csv")
 
-# remove rows with No overlap
+# remove rows/linkage chains with No overlap
 data = data[!data$Overlap == "NO", ]
 
-# only the desriptor rows and their scores
+# Only need the sectors, pressures, eco char and their scores
 data = data[ , c(1:8)]
 # add columns with the values asscociated with the clasifactions
+# score each rating according to Knight et al 2015
 data$Overlap.Score = ifelse(data$Overlap == "W", 1,
                             ifelse(data$Overlap == "L", 0.37, 
                                    ifelse(data$Overlap == "S", 0.03, NA)))
@@ -37,6 +38,7 @@ data$Persistence.Score = ifelse(data$Persistence == "C", 1,
                                               ifelse(data$Persistence == "L", 0.01, NA))))
 
 # Check for NA's
+# If any present, relook at the imput file
 unique(data$Overlap.Score)
 unique(data$Frequency.Score)
 unique(data$DoI.Score)
@@ -54,5 +56,7 @@ data$Ryr =  (data$Resilience.Score + data$Persistence.Score) *100
 
 data$TotalRisk = data$ImpactRisk * data$RecoveryLag
 
+
+### set up data frame for some of the initial plots
 BPIS = data
 names(BPIS)[names(BPIS) == 'Ecological.Characteristic'] <- 'EcoChar'

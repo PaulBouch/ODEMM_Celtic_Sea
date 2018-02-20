@@ -3,7 +3,8 @@
 #####     Ranking Graph        ##################################
 #################################################################
 #################################################################
-options(scipen = 999)
+require (reshape2)
+
 BPIS$TotalRisk = BPIS$ImpactRisk * BPIS$RecoveryLag
 
 TotIR = sum (BPIS$ImpactRisk)
@@ -33,7 +34,7 @@ df$variable [df$variable == "relTR"] = "TR Relative Contribution"
 df$variable = as.factor(df$variable)
 
 
-pdf("Relative Contribution Plot.pdf")
+#pdf("Relative Contribution Plot.pdf")
 ggplot (df, aes(x= index, y=value, color = variable), log = "y")+
   geom_line (size=1) +
   geom_abline(intercept = 0, slope = 0)+ ##log scale
@@ -45,4 +46,45 @@ ggplot (df, aes(x= index, y=value, color = variable), log = "y")+
          axis.title.y=element_blank(),
          legend.title = element_blank(),
          legend.position = c(0.7, 0.7))
-dev.off()
+#dev.off()
+
+### No legend and background removed
+ggplot (df, aes(x= index, y=value, color = variable), log = "y")+
+  geom_line (size=1) +
+  geom_abline(intercept = 0, slope = 0)+ ##log scale
+  scale_y_continuous(trans='log10', breaks=c(10,1,0.1,0.01,0.001, 0.0001, 0.00001, 0.000001, 0.0000001))+
+  theme_classic()+
+  theme (axis.title.x=element_blank(),
+         axis.text.x =element_blank(),
+         axis.ticks.x=element_blank(),
+         axis.title.y=element_blank(),
+         legend.position="none")
+
+### Black and white
+ggplot (df, aes(x= index, y=value, color = variable), log = "y")+
+  geom_line (size=1) +
+  scale_colour_manual(values=c("grey90", "grey12", "grey45"))+
+  geom_abline(intercept = 0, slope = 0)+ ##log scale
+  scale_y_continuous(trans='log10', breaks=c(10,1,0.1,0.01,0.001, 0.0001, 0.00001, 0.000001, 0.0000001))+
+  theme_classic()+
+  theme (axis.title.x=element_blank(),
+         axis.text.x =element_blank(),
+         axis.ticks.x=element_blank(),
+         axis.title.y=element_blank(),
+         legend.position="none")
+
+### Dashed
+ggplot (df, aes(x= index, y=value), log = "y")+
+  geom_line (size=1, aes(linetype=variable)) +
+#  scale_colour_manual(values=c("grey45", "grey90", "grey2"))+
+  geom_abline(intercept = 0, slope = 0)+ ##log scale
+  scale_y_continuous(trans='log10', breaks=c(10,1,0.1,0.01,0.001, 0.0001, 0.00001, 0.000001, 0.0000001))+
+  theme_classic()+
+  theme (axis.title.x=element_blank(),
+         axis.text.x =element_blank(),
+         axis.ticks.x=element_blank(),
+         axis.title.y=element_blank(),
+         legend.position="none")
+
+
+

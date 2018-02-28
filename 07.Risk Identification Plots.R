@@ -3,6 +3,8 @@
 #####    Risk Identity Plots
 ########################################################################################
 
+### Not used but may be of interest in the future
+
 ##### By Sector and sum of the risks
 
 options(scipen = 999)
@@ -44,14 +46,14 @@ ggplot(x2, aes(y= value, x = variable)) +
   theme(strip.text.y = element_text(angle = 0))+
   theme(axis.text.y = element_blank(), axis.title.y = element_blank(), axis.title.x = element_blank())
 
-png ("Risk Plots by Sector (summed).png", width = 800, height = 800)
-ggplot(x2, aes(y= value, x = variable)) +
-  geom_bar(stat = 'identity', colour = mycolours, fill = mycolours)+
-  theme_bw()+
-  facet_wrap(~Sector, ncol = 1, strip.position="right")+
-  theme(strip.text.y = element_text(angle = 0))+
-  theme(axis.text.y = element_blank(), axis.title.y = element_blank(), axis.title.x = element_blank())
-dev.off()
+# png ("Risk Plots by Sector (summed).png", width = 800, height = 800)
+# ggplot(x2, aes(y= value, x = variable)) +
+#   geom_bar(stat = 'identity', colour = mycolours, fill = mycolours)+
+#   theme_bw()+
+#   facet_wrap(~Sector, ncol = 1, strip.position="right")+
+#   theme(strip.text.y = element_text(angle = 0))+
+#   theme(axis.text.y = element_blank(), axis.title.y = element_blank(), axis.title.x = element_blank())
+# dev.off()
 
 
 #########  Averaged risks
@@ -97,14 +99,14 @@ ggplot(x2, aes(y= value, x = variable)) +
   theme(strip.text.y = element_text(size= 6, angle = 0))+
   theme(axis.text.y = element_blank(), axis.title.y = element_blank(), axis.title.x = element_blank())
 
-png ("Risk Plots by Sector (averaged).png", width = 800, height = 800)
-ggplot(x2, aes(y= value, x = variable)) +
-  geom_bar(stat = 'identity', colour = mycolours, fill = mycolours)+
-  theme_bw()+
-  facet_wrap(~Sector, ncol = 1, strip.position="right")+
-  theme(strip.text.y = element_text(angle = 0))+
-  theme(axis.text.y = element_blank(), axis.title.y = element_blank(), axis.title.x = element_blank())
-dev.off()
+# png ("Risk Plots by Sector (averaged).png", width = 800, height = 800)
+# ggplot(x2, aes(y= value, x = variable)) +
+#   geom_bar(stat = 'identity', colour = mycolours, fill = mycolours)+
+#   theme_bw()+
+#   facet_wrap(~Sector, ncol = 1, strip.position="right")+
+#   theme(strip.text.y = element_text(angle = 0))+
+#   theme(axis.text.y = element_blank(), axis.title.y = element_blank(), axis.title.x = element_blank())
+# dev.off()
 
 ##########################################################################
 ### Do the same for Ecochar
@@ -148,14 +150,14 @@ ggplot(x2, aes(y= value, x = variable)) +
   theme(strip.text.y = element_text(size= 6, angle = 0))+
   theme(axis.text.y = element_blank(), axis.title.y = element_blank(), axis.title.x = element_blank())
 
-png ("Risk Plots by Ecological Characteristic (summed).png", width = 800, height = 800)
-ggplot(x2, aes(y= value, x = variable)) +
-  geom_bar(stat = 'identity', colour = mycolours, fill = mycolours)+
-  theme_bw()+
-  facet_wrap(~Ecological.Characteristic, ncol = 1, strip.position="right")+
-  theme(strip.text.y = element_text(angle = 0))+
-  theme(axis.text.y = element_blank(), axis.title.y = element_blank(), axis.title.x = element_blank())
-dev.off()
+# png ("Risk Plots by Ecological Characteristic (summed).png", width = 800, height = 800)
+# ggplot(x2, aes(y= value, x = variable)) +
+#   geom_bar(stat = 'identity', colour = mycolours, fill = mycolours)+
+#   theme_bw()+
+#   facet_wrap(~Ecological.Characteristic, ncol = 1, strip.position="right")+
+#   theme(strip.text.y = element_text(angle = 0))+
+#   theme(axis.text.y = element_blank(), axis.title.y = element_blank(), axis.title.x = element_blank())
+# dev.off()
 
 ##### Averaged
 
@@ -193,11 +195,11 @@ ggplot(x2, aes(y= value, x = variable)) +
   theme(strip.text.y = element_text(size= 6, angle = 0))+
   theme(axis.text.y = element_blank(), axis.title.y = element_blank(), axis.title.x = element_blank())
 
-png ("Risk Plots by Ecological Characteristic (averaged).png", width = 800, height = 800)
-ggplot(x2, aes(y= value, x = variable)) +
-  geom_bar(stat = 'identity', colour = mycolours, fill = mycolours)+
-  theme_bw()+
-  facet_wrap(~Ecological.Characteristic, ncol = 1, strip.position="right")+
-  theme(strip.text.y = element_text(angle = 0))+
-  theme(axis.text.y = element_blank(), axis.title.y = element_blank(), axis.title.x = element_blank())
-dev.off()
+# png ("Risk Plots by Ecological Characteristic (averaged).png", width = 800, height = 800)
+# ggplot(x2, aes(y= value, x = variable)) +
+#   geom_bar(stat = 'identity', colour = mycolours, fill = mycolours)+
+#   theme_bw()+
+#   facet_wrap(~Ecological.Characteristic, ncol = 1, strip.position="right")+
+#   theme(strip.text.y = element_text(angle = 0))+
+#   theme(axis.text.y = element_blank(), axis.title.y = element_blank(), axis.title.x = element_blank())
+# dev.off()

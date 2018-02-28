@@ -1,10 +1,14 @@
 #################################################################
 #################################################################
-#####     Ranking Graph        ##################################
+#####     Relative Contribition Plots    ########################
 #################################################################
 #################################################################
+
+## Plots of relative contribution of risk
+
 require (reshape2)
 
+#### Calcultate relative risk
 BPIS$TotalRisk = BPIS$ImpactRisk * BPIS$RecoveryLag
 
 TotIR = sum (BPIS$ImpactRisk)

@@ -1,9 +1,16 @@
+###############################################################################
+#######  Box Plots and proprotional connectance plot. #########################
+#######    Used for publication    ############################################
+###############################################################################
+
 require (ggpubr)
 require (gridExtra)
 require (RColorBrewer)
 require (ggplot2)
 require(plyr)
 require (grid)
+
+### 
 
 ################################################################################
 #### Sectors
@@ -233,11 +240,11 @@ grid.arrange(Ecoa, Ecob , Ecoc, Ecod, ncol = 4, widths = c(9, 4, 4, 4))
 ### Combine all together
 #########################################################
 
-pdf ("Box Plot Crazy Arrange.pdf", width = 12, height = 18)
+#pdf ("Box Plot Crazy Arrange.pdf", width = 12, height = 18)
 grid.arrange(BoxSector, BoxPressure, BoxEco, ncol = 1, heights =  c(6,7,8))
 grid.text("a) Sectors", x = unit(0.02, "npc"), y = unit(0.989, "npc"), just = "left", gp=gpar(fontsize=16))
 grid.text("b) Pressures", x = unit(0.02, "npc"), y = unit(0.71, "npc"), just = "left", gp=gpar(fontsize=16))
 grid.text("c) Ecological", x = unit(0.02, "npc"), y = unit(0.395, "npc"), just = "left", gp=gpar(fontsize=15))
 grid.text("Characteristic", x = unit(0.035, "npc"), y = unit(0.383, "npc"), just = "left", gp=gpar(fontsize=15))
-dev.off()
+#dev.off()
 

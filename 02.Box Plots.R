@@ -7,6 +7,8 @@
 ### Creates box plots of the sectors, pressures and ecological characteristics
 ##' First use code for data input (01. Data Input and Initial Analysis.R)
 
+require (RColorBrewer)
+
 ## defines the order of the categories you are plotting - only needed for EcoChar
 BPIS$EcoChar<-factor(BPIS$EcoChar,
                      levels=c( "Littoral Rock & Reef", "Littoral Sediment", "Shallow Rock & Reef", 

@@ -4,8 +4,9 @@
 #########################################################################################################
 #########################################################################################################
 
+require (plyr)
 
-####################################################################################
+###########################################################
 ###### Need to aggregate the data to see better patterns
 ##########################################################
 ##### Let's focus on sector initially
@@ -33,9 +34,9 @@ Sec.Ave$SumTR = formatC(Sec.Ave$SumTR, format = "e", digits = 2)
 
 Sec.Ave = Sec.Ave[,c(1,4,2,5, 3)]
 
-pdf ("Total Risk Ranks by Sector.pdf")
+#pdf ("Total Risk Ranks by Sector.pdf")
 grid.table(Sec.Ave, rows = NULL)
-dev.off()
+#dev.off()
 
 # pdf ("Total Risk Ranks by Sector (Sum).pdf")
 # grid.table(Sec.Sum, rows = NULL)
@@ -67,9 +68,9 @@ Pres.Ave = Pres.Ave[,c(1,4,2,5, 3)]
 row.names(Pres.Ave) <- NULL
 
 
-pdf ("Total Risk Ranks by Pressure.pdf")
+#pdf ("Total Risk Ranks by Pressure.pdf")
 grid.table(Pres.Ave, rows = NULL)
-dev.off()
+#dev.off()
 
 # pdf ("Total Risk Ranks by Pressure (Sum).pdf")
 # grid.table(Pres.Sum, rows = NULL)
@@ -100,17 +101,17 @@ EcoCh.Ave$RankSum = formatC(EcoCh.Ave$RankSum, format = "d")
 EcoCh.Ave = EcoCh.Ave[,c(1,4,2,5, 3)]
 row.names(EcoCh.Ave) <- NULL
 
-pdf ("Total Risk Ranks by Ecological Characteristic.pdf", height = 10, width = 7)
+#pdf ("Total Risk Ranks by Ecological Characteristic.pdf", height = 10, width = 7)
 grid.table(EcoCh.Ave, rows = NULL)
-dev.off()
+#dev.off()
 
 # pdf ("Total Risk Ranks by Ecological Characteristic (Sum).pdf", height = 10, width = 6)
 # grid.table(EcoCh.Sum, rows = NULL)
 # dev.off()
 
-write.csv(Sec.Ave, "Sectors.csv")
-write.csv(Pres.Ave, "Pressures.csv")
-write.csv(EcoCh.Ave, "Eco.csv")
+#write.csv(Sec.Ave, "Sectors.csv")
+#write.csv(Pres.Ave, "Pressures.csv")
+#write.csv(EcoCh.Ave, "Eco.csv")
 
 
 
@@ -128,13 +129,13 @@ Sec.Eco = ddply (data, c("Sector", "Ecological.Characteristic"), summarise,
 Sec.Eco.Ave = Sec.Eco[order (Sec.Eco$AverageTR, decreasing = T)[1:25], ]
 Sec.Eco.Sum = Sec.Eco[order (Sec.Eco$SumTR, decreasing = T)[1:25], ]
 
-png ("Total Risk Ranks by Sector and Ecological Characteristic (Average).png", width =600, height = 800)
+#png ("Total Risk Ranks by Sector and Ecological Characteristic (Average).png", width =600, height = 800)
 grid.table(Sec.Eco.Ave)
-dev.off()
+#dev.off()
 
-png ("Total Risk Ranks by Sector and Ecological Characteristic (Sum).png", width =600, height = 800)
+#png ("Total Risk Ranks by Sector and Ecological Characteristic (Sum).png", width =600, height = 800)
 grid.table(Sec.Eco.Sum)
-dev.off()
+#dev.off()
 
 
 ###### Sector and pressure
@@ -146,13 +147,13 @@ Sec.Pres = ddply (data, c("Sector", "Pressure"), summarise,
 Sec.Pres.Ave = Sec.Pres[order (Sec.Pres$AverageTR, decreasing = T)[1:25], ]
 Sec.Pres.Sum = Sec.Pres[order (Sec.Pres$SumTR, decreasing = T)[1:25], ]
 
-png ("Total Risk Ranks by Sector and Pressure (Average).png", width =600, height = 800)
+#png ("Total Risk Ranks by Sector and Pressure (Average).png", width =600, height = 800)
 grid.table(Sec.Pres.Ave)
-dev.off()
+#dev.off()
 
-png ("Total Risk Ranks by Sector and Pressure (Sum).png", width =600, height = 800)
+#png ("Total Risk Ranks by Sector and Pressure (Sum).png", width =600, height = 800)
 grid.table(Sec.Pres.Sum)
-dev.off()
+#dev.off()
 
 ###### Eco and pressure
 
@@ -164,13 +165,13 @@ Eco.Pres.Ave = Eco.Pres[order (Eco.Pres$AverageTR, decreasing = T)[1:25], ]
 Eco.Pres.Sum = Eco.Pres[order (Eco.Pres$SumTR, decreasing = T)[1:25], ]
 
 
-png ("Total Risk Ranks by Pressure and Ecological Characteristic (Average).png", width =600, height = 800)
+#png ("Total Risk Ranks by Pressure and Ecological Characteristic (Average).png", width =600, height = 800)
 grid.table(Eco.Pres.Ave)
-dev.off()
+#dev.off()
 
-png ("Total Risk Ranks by Pressure and Ecological Characteristic (Sum).png", width =600, height = 800)
+#png ("Total Risk Ranks by Pressure and Ecological Characteristic (Sum).png", width =600, height = 800)
 grid.table(Eco.Pres.Sum)
-dev.off()
+#dev.off()
 
 ### Want to rank the biggest risks (Total Risk, Impact Risk and Recovery Lag)
 

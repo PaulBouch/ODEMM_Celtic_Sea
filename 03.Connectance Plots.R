@@ -4,6 +4,11 @@
 ########################################################################
 ########################################################################
 
+## Bar plots for proportional connectance, and numbers of pressures and  
+## ecological characteristics effected
+
+require (plyr)
+
 BPIS$Sector = as.factor(BPIS$Sector)
 BPIS$Pressure = as.factor(BPIS$Pressure)
 
@@ -37,11 +42,11 @@ Sectors$Connect = (Sectors$TotLinks/ (length (BPIS$ImpactRisk))) *100
 
 Sectors = Sectors[order(Sectors$Connect, decreasing = TRUE), ]
 
-write.csv (Sectors, "Data Summary Sectors.csv")
+#write.csv (Sectors, "Data Summary Sectors.csv")
 
-png ("Data Summary Sectors.png", width = 700, height = 700)
+#png ("Data Summary Sectors.png", width = 700, height = 700)
 grid.table(Sectors)
-dev.off()
+#dev.off()
 
 ## Plots
 
@@ -53,13 +58,13 @@ ggplot (Sectors, aes (x = Sector, y = Connect))+
   theme_bw() +
   coord_flip()
 
-pdf ("Connectance Sectors.pdf", width = 6, height = 8)
+#pdf ("Connectance Sectors.pdf", width = 6, height = 8)
 ggplot (Sectors, aes (x = Sector, y = Connect))+
   geom_bar(stat = 'identity', colour = "red", fill = "red") +
   ylab ("Proportional Connectance")+
   theme_bw() +
   coord_flip()
-dev.off()
+#dev.off()
 
 ggplot (Sectors, aes (x = Sector, y = PercPress))+
   geom_bar(stat = 'identity', colour = "red", fill = "red") +
@@ -98,9 +103,9 @@ s3 = ggplot (Sectors, aes (x = Sector, y = PercEco))+
         axis.text.y =element_blank(),
         axis.ticks.y=element_blank())
 
-pdf ("Links Sectors.pdf", width = 12, height = 8)
+#pdf ("Links Sectors.pdf", width = 12, height = 8)
 grid.arrange(s1, s2, s3, ncol = 3, widths = c(10, 5,5))
-dev.off()
+#dev.off()
 
 ###########################################
 ### Pressures
@@ -126,7 +131,7 @@ Pressures$Connect = (Pressures$TotLinks/ (length (BPIS$ImpactRisk))) *100
 Pressures = Pressures[order(Pressures$Connect, decreasing = TRUE), ]
 
 
-write.csv (Pressures, "Data Summary Pressures.csv")
+#write.csv (Pressures, "Data Summary Pressures.csv")
 
 ## Plots
 
@@ -183,13 +188,13 @@ p3 = ggplot (Pressures, aes (x = Pressure, y = PercEco))+
         axis.text.y =element_blank(),
         axis.ticks.y=element_blank())
 
-pdf ("Links Pressures.pdf", width = 12, height = 8)
+#pdf ("Links Pressures.pdf", width = 12, height = 8)
 grid.arrange(p1, p2, p3, ncol = 3, widths = c(8, 5,5))
-dev.off()
+#dev.off()
 
-png ("Data Summary Pressures.png", width = 700, height = 700)
+#png ("Data Summary Pressures.png", width = 700, height = 700)
 grid.table(Pressures)
-dev.off()
+#dev.off()
 
 ###########################################
 ### Eco Char
@@ -211,11 +216,11 @@ Eco$Connect = (Eco$TotLinks/ (length (BPIS$ImpactRisk))) *100
 
 Eco = Eco[order(Eco$Connect, decreasing = TRUE), ]
 
-write.csv (Eco, "Data Summary Eco Char.csv")
+#write.csv (Eco, "Data Summary Eco Char.csv")
 
-png ("Data Summary Eco Char.png", width = 700, height = 700)
+#png ("Data Summary Eco Char.png", width = 700, height = 700)
 grid.table(Eco)
-dev.off()
+#dev.off()
 
 ## Plots
 
@@ -228,14 +233,14 @@ ggplot (Eco, aes (x = EcoChar, y = Connect))+
   theme_bw() +
   coord_flip()
 
-pdf ("Connectance Eco Char.pdf", width = 6, height = 8)
+#pdf ("Connectance Eco Char.pdf", width = 6, height = 8)
 ggplot (Eco, aes (x = EcoChar, y = Connect))+
   geom_bar(stat = 'identity', colour = "red", fill = "red") +
   ylab ("Proportional Connectance")+
   xlab ("Ecological Characteristic")+
   theme_bw() +
   coord_flip()
-dev.off ()
+#dev.off ()
 
 ggplot (Eco, aes (x = EcoChar, y = PercSect))+
   geom_bar(stat = 'identity', colour = "red", fill = "red") +
@@ -279,7 +284,7 @@ e3 = ggplot (Eco, aes (x = EcoChar, y = PercPress))+
         axis.text.y =element_blank(),
         axis.ticks.y=element_blank())
 
-pdf ("Links EcoChar.pdf", width = 12, height = 8)
+#pdf ("Links EcoChar.pdf", width = 12, height = 8)
 grid.arrange(e1, e2, e3, ncol = 3, widths = c(8, 5,5))
-dev.off()
+#dev.off()
 

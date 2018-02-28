@@ -4,6 +4,9 @@
 ########################################################################
 ########################################################################
 
+### A variety of dendrogram plots 
+### Code created by :..........
+
 ### Sectors by Pressure
 
 SecPress = dcast (d, Sector ~ Pressure , value.var = "Count")
@@ -17,12 +20,12 @@ SecPress[is.nan(SecPress)] <- 0
 SecPress.pv <- pvclust(SecPress, method.dist="euclidean", 
                        method.hclust="average", nboot=1000)
 
-pdf ("Dendrogram Pressures by Sector.pdf")
+#pdf ("Dendrogram Pressures by Sector.pdf")
 plot(SecPress.pv, col.pv=c(2,3,4), main="", sub="", xlab="", ylab="", 
      float = 0.005, cex=0.8, cex.pv=0.6, adj=.7,axes=F)
 axis(side=4, at=c(0,1,2,3), labels=c("0","1", "2", "3"),  
      mgp = c(0, 0.5, 0))
-dev.off()
+#dev.off()
 
 
 ### Pressures by Sector
@@ -38,12 +41,12 @@ PressSec[is.nan(PressSec)] <- 0
 PressSec.pv <- pvclust(PressSec, method.dist="euclidean", 
                        method.hclust="average", nboot=1000)
 
-pdf ("Dendrogram Sectors by Pressure.pdf")
+#pdf ("Dendrogram Sectors by Pressure.pdf")
 plot(PressSec.pv, col.pv=c(2,3,4), main="", sub="", xlab="", ylab="", 
      float = 0.005, cex=0.8, cex.pv=0.6, adj=.7,axes=F)
 axis(side=4, at=c(0,1,2,3), labels=c("0","1", "2", "3"),  
      mgp = c(0, 0.5, 0))
-dev.off()
+#dev.off()
 
 ### Eco Char by Sector
 
@@ -58,12 +61,12 @@ EcoSec[is.nan(EcoSec)] <- 0
 EcoSec.pv <- pvclust(EcoSec, method.dist="euclidean", 
                      method.hclust="average", nboot=1000)
 
-pdf ("Dendrogram Eco Char by Sector.pdf")
+#pdf ("Dendrogram Eco Char by Sector.pdf")
 plot(EcoSec.pv, col.pv=c(2,3,4), main="", sub="", xlab="", ylab="", 
      float = 0.005, cex=0.8, cex.pv=0.6, adj=.7,axes=F)
 axis(side=4, at=c(0,1,2,3), labels=c("0","1", "2", "3"),  
      mgp = c(0, 0.5, 0))
-dev.off()
+#dev.off()
 
 ### Eco Char by Pressure
 
@@ -78,9 +81,9 @@ EcoPress[is.nan(EcoPress)] <- 0
 EcoPress.pv <- pvclust(EcoPress, method.dist="euclidean", 
                        method.hclust="average", nboot=1000)
 
-pdf ("Dendrogram Eco Char by Pressure.pdf")
+#pdf ("Dendrogram Eco Char by Pressure.pdf")
 plot(EcoPress.pv, col.pv=c(2,3,4), main="", sub="", xlab="", ylab="", 
      float = 0.005, cex=0.8, cex.pv=0.6, adj=.7,axes=F)
 axis(side=4, at=c(0,1,2,3), labels=c("0","1", "2", "3"),  
      mgp = c(0, 0.5, 0))
-dev.off()
+#ev.off()

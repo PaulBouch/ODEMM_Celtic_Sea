@@ -4,6 +4,11 @@
 ########################################################################
 ########################################################################
 
+### Creates box plots of the sectors, pressures and ecological characteristics
+##' First use code for data input (01. Data Input and Initial Analysis.R)
+
+require (RColorBrewer)
+
 ## defines the order of the categories you are plotting - only needed for EcoChar
 BPIS$EcoChar<-factor(BPIS$EcoChar,
                      levels=c( "Littoral Rock & Reef", "Littoral Sediment", "Shallow Rock & Reef", 
@@ -18,7 +23,7 @@ BPIS$EcoChar<-factor(BPIS$EcoChar,
 
 ### Pressures
 
-pdf ("Box Plot Pressures.pdf", width = 12, height = 8)
+# pdf ("Box Plot Pressures.pdf", width = 12, height = 8)
 par(mfrow = c(1, 3), oma = c(2, 16, 2 ,2), mar = c(5,0,1,0))
 
 boxplot(BPIS$ImpactRisk ~ BPIS$Pressure, las=1, horizontal=TRUE, 
@@ -34,12 +39,12 @@ boxplot(BPIS$Ryr ~ BPIS$Pressure, las=1, horizontal=TRUE,
         col=colorRampPalette(brewer.pal(9,"Pastel1"))(28), xlab="Recovery (Years)", cex.axis=1.4, cex.lab = 1.4,
         yaxt = "n",
         at = rev(seq(1, nlevels(BPIS$Pressure), 1)))
-dev.off()
+# dev.off()
 
 
 #### Eco Char
 
-pdf ("Box Plot Eco Char.pdf", width = 12, height = 8)
+#pdf ("Box Plot Eco Char.pdf", width = 12, height = 8)
 
 par(mfrow = c(1, 3), oma = c(2, 13, 2 ,2), mar = c(5,0,1,0))
 
@@ -56,11 +61,11 @@ boxplot(BPIS$Ryr ~ BPIS$EcoChar, las=1, horizontal=TRUE,
         col=colorRampPalette(brewer.pal(9,"Pastel1"))(28), xlab="Recovery (Years)", cex.axis=1.4, cex.lab = 1.4,
         yaxt = "n",
         at = rev(seq(1, nlevels(BPIS$EcoChar), 1)))
-dev.off()
+#dev.off()
 
 #### Sectors
 
-pdf ("Outputs\\Box Plot Sectors.pdf", width = 12, height = 8)
+#pdf ("Outputs\\Box Plot Sectors.pdf", width = 12, height = 8)
 
 par(mfrow = c(1, 3), oma = c(2, 15, 2 ,2), mar = c(5,0,1,0))
 
@@ -77,4 +82,4 @@ boxplot(BPIS$Ryr ~ BPIS$Sector, las=1, horizontal=TRUE,
         col=colorRampPalette(brewer.pal(9,"Pastel1"))(28), xlab="Recovery (Years)", cex.axis=1.4, cex.lab = 1.4,
         yaxt = "n",
         at = rev(seq(1, nlevels(BPIS$Sector), 1)))
-dev.off ()
+#dev.off ()

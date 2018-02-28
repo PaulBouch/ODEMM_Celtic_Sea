@@ -108,6 +108,13 @@ dev.off()
 # grid.table(EcoCh.Sum, rows = NULL)
 # dev.off()
 
+write.csv(Sec.Ave, "Sectors.csv")
+write.csv(Pres.Ave, "Pressures.csv")
+write.csv(EcoCh.Ave, "Eco.csv")
+
+
+
+
 ########################################################################################
 ########################################################################################
 #####    Not  being used currently but maybe of interest

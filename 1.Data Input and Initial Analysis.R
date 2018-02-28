@@ -6,7 +6,7 @@ require (pvclust)
 require (reshape2)
 
 # read in data
-data = read.csv("Data//Celtic SeaS Pressure Assessment PB 24_01_18 Consistent Resilience.csv")
+data = read.csv("Data//Celtic SeaS Pressure Assessment PB 28_02_18.csv")
 
 # remove rows/linkage chains with No overlap
 data = data[!data$Overlap == "NO", ]
@@ -60,3 +60,4 @@ data$TotalRisk = data$ImpactRisk * data$RecoveryLag
 ### set up data frame for some of the initial plots
 BPIS = data
 names(BPIS)[names(BPIS) == 'Ecological.Characteristic'] <- 'EcoChar'
+

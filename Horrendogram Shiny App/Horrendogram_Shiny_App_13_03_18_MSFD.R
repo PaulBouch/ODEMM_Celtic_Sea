@@ -2,15 +2,164 @@ library(shiny)
 library(DiagrammeR)
 
 packageVersion("base")
-options(max.print=1000000000)
+options(max.print=10000000)
 
 raw = read.csv("Data//Celtic SeaS Pressure Assessment PB 28_02_18.csv")
 
+raw = raw[!raw$Overlap == "NO", ]
 
-data = raw[!raw$Overlap == "NO", ]
+raw$Sector = as.character(raw$Sector)
+raw$Sector[raw$Sector == "Non-renewable (oil & gas)"] <- "Non-renewable"
 
-# Only need the sectors, pressures, eco char and their scores
-data = data[ , c(1:8)]
+######################################
+###   MSFD Eco and Pressures
+######################################
+D1.Eco = c("Shallow Sediment", "Shallow Rock & Reef","Littoral Sediment","Littoral Rock & Reef","Demersal Elasmo",
+           "Cephalopods","Demersal Fish","Pelagic Fish","Seabirds","Seals","Toothed Whales","Pelagic Elasmo","Coastal Pelagic",
+           "Shallow Mud","Baleen Whales","Reptiles","Deep Sea Elasmo","Deep Sea Fish","Shelf Sediment","Shelf Rock & Reef",
+           "Bathyal Sediment","Bathyal Rock & Reef","Slope Sediment","Slope Rock & Reef","Oceanic Pelagic","Shelf Pelagic",
+           "Abyssal Sediment","Abyssal Rock & Reef")
+
+D1.Pressures = c("Abrasion", "Current Changes", "Sealing","Siltation", "Incidental Loss", "Nitrogen & Phosphorus",
+                 "Non-synthetic Compounds",  "Organic Matter","pH Changes", "Synthetic Compounds",
+                 "Invasive Species", "Smothering","Species Extraction","Wave Exposure","Barriers",
+                 "Emergence Regime", "Salinity Regime", "Bycatch", "Thermal Regime",  "EMF") 
+
+raw$D1 [raw$Pressure %in%  D1.Pressures & raw$Ecological.Characteristic %in% D1.Eco] = "'D1. Biological Diversity'"
+######################################
+D2.Eco = c("Shallow Sediment", "Shallow Rock & Reef","Littoral Sediment","Littoral Rock & Reef","Demersal Elasmo",
+           "Cephalopods","Demersal Fish","Pelagic Fish","Pelagic Elasmo","Coastal Pelagic",
+           "Shallow Mud","Deep Sea Elasmo","Deep Sea Fish","Shelf Sediment","Shelf Rock & Reef",
+           "Bathyal Sediment","Bathyal Rock & Reef","Slope Sediment","Slope Rock & Reef","Oceanic Pelagic","Shelf Pelagic",
+           "Abyssal Sediment","Abyssal Rock & Reef")
+
+D2.Pressures = c("Invasive Species")
+
+raw$D2 [raw$Pressure %in%  D2.Pressures & raw$Ecological.Characteristic %in% D2.Eco] = "'D2. Non-indigenous Species'"
+#####################################
+D3.Eco = c("Shallow Sediment", "Shallow Rock & Reef","Littoral Sediment","Littoral Rock & Reef","Demersal Elasmo",
+           "Cephalopods","Demersal Fish","Pelagic Fish","Seabirds","Seals","Toothed Whales","Pelagic Elasmo","Coastal Pelagic",
+           "Shallow Mud","Baleen Whales","Reptiles","Deep Sea Elasmo","Deep Sea Fish","Shelf Sediment","Shelf Rock & Reef",
+           "Bathyal Sediment","Bathyal Rock & Reef","Slope Sediment","Slope Rock & Reef","Oceanic Pelagic","Shelf Pelagic",
+           "Abyssal Sediment","Abyssal Rock & Reef")
+
+D3.Pressures = c("Incidental Loss", "Invasive Species", "Species Extraction","Bycatch") 
+
+raw$D3 [raw$Pressure %in%  D3.Pressures & raw$Ecological.Characteristic %in% D3.Eco] = "'D3. Commercial Fishing'"
+####################################
+D4.Eco = c("Shallow Sediment", "Shallow Rock & Reef","Littoral Sediment","Littoral Rock & Reef","Demersal Elasmo",
+           "Cephalopods","Demersal Fish","Pelagic Fish","Seabirds","Seals","Toothed Whales","Pelagic Elasmo","Coastal Pelagic",
+           "Shallow Mud","Baleen Whales","Reptiles","Deep Sea Elasmo","Deep Sea Fish","Shelf Sediment","Shelf Rock & Reef",
+           "Bathyal Sediment","Bathyal Rock & Reef","Slope Sediment","Slope Rock & Reef","Oceanic Pelagic","Shelf Pelagic",
+           "Abyssal Sediment","Abyssal Rock & Reef")
+
+D4.Pressures = c("Nitrogen & Phosphorus", "Organic Matter", "Invasive Species", "Species Extraction","Bycatch") 
+
+raw$D4 [raw$Pressure %in%  D4.Pressures & raw$Ecological.Characteristic %in% D4.Eco] = "'D4. Food Webs'"
+####################################
+D5.Eco = c("Littoral Rock & Reef", "Littoral Sediment", "Shallow Rock & Reef", "Shallow Sediment", "Shallow Mud")
+
+D5.Pressures = as.list(c("Nitrogen & Phosphorus", "Organic Matter")) 
+
+raw$D5 [raw$Pressure %in%  D5.Pressures & raw$Ecological.Characteristic %in% D5.Eco] = "'D5. Eutrophication'"
+####################################
+D6.Eco = c("Shallow Sediment", "Shallow Rock & Reef","Littoral Sediment","Littoral Rock & Reef",
+           "Shallow Mud","Shelf Sediment","Shelf Rock & Reef", "Bathyal Sediment","Bathyal Rock & Reef",
+           "Slope Sediment","Slope Rock & Reef", "Abyssal Sediment","Abyssal Rock & Reef")
+
+D6.Pressures = c("Incidental Loss", "Invasive Species", "Species Extraction","Bycatch", "Sealing","Siltation",
+                 "Smothering", "Abrasion", "Non-living Resources") 
+
+raw$D6 [raw$Pressure %in%  D6.Pressures & raw$Ecological.Characteristic %in% D6.Eco] = "'D6. Sea-floor Integrity'"
+####################################
+D7.Eco = c("Littoral Rock & Reef", "Littoral Sediment", "Shallow Rock & Reef", "Shallow Sediment", 
+           "Shallow Mud", "Coastal Pelagic")
+
+D7.Pressures = c("Emergence Regime", "Wave Exposure", "Current Changes")
+
+raw$D7 [raw$Pressure %in%  D7.Pressures & raw$Ecological.Characteristic %in% D7.Eco] = "'D7. Hydrographical Conditions'"
+####################################
+D8.Eco = c("Shallow Sediment", "Shallow Rock & Reef","Littoral Sediment","Littoral Rock & Reef","Demersal Elasmo",
+           "Cephalopods","Demersal Fish","Pelagic Fish","Seabirds","Seals","Toothed Whales","Pelagic Elasmo","Coastal Pelagic",
+           "Shallow Mud","Baleen Whales","Deep Sea Elasmo","Deep Sea Fish","Shelf Sediment","Shelf Rock & Reef",
+           "Bathyal Sediment","Bathyal Rock & Reef","Slope Sediment","Slope Rock & Reef","Oceanic Pelagic","Shelf Pelagic",
+           "Abyssal Sediment","Abyssal Rock & Reef")
+
+D8.Pressures = c("Non-synthetic Compounds", "Synthetic Compounds")
+
+raw$D8 [raw$Pressure %in%  D8.Pressures & raw$Ecological.Characteristic %in% D8.Eco] = "'D8. Contaminants'"
+####################################
+D9.Eco = c("Littoral Rock & Reef", "Littoral Sediment", "Shallow Rock & Reef", "Shallow Sediment", 
+           "Shallow Mud", "Shelf Sediment","Shelf Rock & Reef", "Pelagic Fish", "Demersal Fish",
+           "Deep Sea Elasmo","Deep Sea Fish", "Pelagic Elasmo", "Demersal Elasmo", "Cephalopods")
+
+D9.Pressures = c("Non-synthetic Compounds", "Synthetic Compounds", "Invasive Species")
+
+raw$D9 [raw$Pressure %in%  D9.Pressures & raw$Ecological.Characteristic %in% D9.Eco] = "'D9. Contaminants in Seafood'"
+####################################
+D10.Eco = c("Shallow Sediment", "Shallow Rock & Reef","Littoral Sediment","Littoral Rock & Reef","Demersal Elasmo",
+            "Cephalopods","Demersal Fish","Pelagic Fish","Seabirds","Seals","Toothed Whales","Pelagic Elasmo","Coastal Pelagic",
+            "Shallow Mud","Baleen Whales","Reptiles","Deep Sea Elasmo","Deep Sea Fish","Shelf Sediment","Shelf Rock & Reef",
+            "Bathyal Sediment","Bathyal Rock & Reef","Slope Sediment","Slope Rock & Reef","Oceanic Pelagic","Shelf Pelagic",
+            "Abyssal Sediment","Abyssal Rock & Reef")
+
+D10.Pressures = c("Litter")
+
+raw$D10 [raw$Pressure %in%  D10.Pressures & raw$Ecological.Characteristic %in% D10.Eco] = "'D10. Marine Litter'"
+####################################
+D11.Eco = c("Shallow Sediment", "Shallow Rock & Reef","Littoral Sediment","Littoral Rock & Reef","Demersal Elasmo",
+            "Cephalopods","Demersal Fish","Pelagic Fish","Seabirds","Seals","Toothed Whales","Pelagic Elasmo","Coastal Pelagic",
+            "Shallow Mud","Baleen Whales","Reptiles","Deep Sea Elasmo","Deep Sea Fish","Shelf Sediment","Shelf Rock & Reef",
+            "Bathyal Sediment","Bathyal Rock & Reef","Slope Sediment","Slope Rock & Reef","Oceanic Pelagic","Shelf Pelagic",
+            "Abyssal Sediment","Abyssal Rock & Reef")
+
+D11.Pressures = c("Noise")
+
+raw$D11 [raw$Pressure %in%  D11.Pressures & raw$Ecological.Characteristic %in% D11.Eco] = "'D11. Underwater Noise'"
+
+### Put all the descriptors into one column, so we can add them on to the Linkage chains
+raw$Descriptors [raw$D1 == "'D1. Biological Diversity'"]  =  "'D1. Biological Diversity'"
+
+raw$Descriptors = ifelse (is.na(raw$D2),  raw$Descriptors, 
+                          ifelse(is.na(raw$Descriptors),"'D2. Non-indigenous Species'",paste(raw$Descriptors, "; 'D2. Non-indigenous Species'" ))) 
+
+raw$Descriptors = ifelse (is.na(raw$D3),  raw$Descriptors,
+                          ifelse(is.na(raw$Descriptors),"'D3. Commercial Fishing'",paste(raw$Descriptors, "; 'D3. Commercial Fishing'" )))
+
+raw$Descriptors = ifelse (is.na(raw$D4),  raw$Descriptors,
+                          ifelse(is.na(raw$Descriptors),"'D4. Food Webs'",paste(raw$Descriptors, "; 'D4. Food Webs'" )))
+
+raw$Descriptors = ifelse (is.na(raw$D5),  raw$Descriptors,
+                          ifelse(is.na(raw$Descriptors),"'D5.Eutrophication'",paste(raw$Descriptors, "; 'D5. Eutrophication'" )))
+
+raw$Descriptors = ifelse (is.na(raw$D6),  raw$Descriptors,
+                          ifelse(is.na(raw$Descriptors),"'D6. Sea-floor Integrity'", paste(raw$Descriptors, "; 'D6. Sea-floor Integrity'" )))
+
+raw$Descriptors = ifelse (is.na(raw$D7),  raw$Descriptors,
+                          ifelse(is.na(raw$Descriptors),"'D7. Hydrographical Conditions'",paste(raw$Descriptors, "; 'D7. Hydrographical Conditions'" )))
+
+raw$Descriptors = ifelse (is.na(raw$D8),  raw$Descriptors,
+                          ifelse(is.na(raw$Descriptors),"'D8. Contaminants'",paste(raw$Descriptors, "; 'D8. Contaminants'" )))
+
+raw$Descriptors = ifelse (is.na(raw$D9),  raw$Descriptors,
+                          ifelse(is.na(raw$Descriptors),"'D9. Contaminants in Seafood'",paste(raw$Descriptors, "; 'D9. Contaminants in Seafoods'" )))
+
+raw$Descriptors = ifelse (is.na(raw$D10),  raw$Descriptors,
+                          ifelse(is.na(raw$Descriptors),"'D10. Marine Litter'",paste(raw$Descriptors, "; 'D10. Marine Litter'" )))
+
+raw$Descriptors = ifelse (is.na(raw$D11),  raw$Descriptors,
+                          ifelse(is.na(raw$Descriptors),"'D11. Underwater Noise'",paste(raw$Descriptors, "; 'D11. Underwater Noise'" )))
+
+
+
+raw$Descriptors = ifelse (is.na(raw$Descriptors), "", paste0(" -> {", raw$Descriptors, "}"))
+
+
+
+raw$Links = paste("'", raw$Sector, "'", " -> ", "'", raw$Pressure, "'", " -> ", "'", raw$Ecological.Characteristic, "'" , raw$Descriptors )
+
+data = raw[ , c(1:8,32)]
+
 # add columns with the values asscociated with the clasifactions
 # score each rating according to Knight et al 2015
 data$Overlap.Score = ifelse(data$Overlap == "W", 1,
@@ -43,16 +192,7 @@ data$RecoveryLag = data$Resilience.Score*data$Persistence.Score
 
 data$TotalRisk = data$ImpactRisk * data$RecoveryLag
 
-
-
-data$Sector = as.character(data$Sector)
-data$Sector[data$Sector == "Non-renewable (oil & gas)"] <- "Non-renewable"
-
-
-data$Links = paste("'", data$Sector, "'", " -> ", "'", data$Pressure, "'", " -> ", "'", data$Ecological.Characteristic, "'")
-
-data = data[ , c(1:3, 14:17)]
-
+### Column to look for unique chains
 data$key = paste0(data$Sector, data$Pressure, data$Ecological.Characteristic)
 
 
@@ -62,7 +202,6 @@ data$key = paste0(data$Sector, data$Pressure, data$Ecological.Characteristic)
 
 graph_obj <- function(data, InSector, InPressure, InEco, method, percent){
   
-  
   # For testing
   # InSector = "Fishing"
   # percent = "All"
@@ -71,13 +210,13 @@ graph_obj <- function(data, InSector, InPressure, InEco, method, percent){
   # InEco = "All"
   
   ### Switch between different ways of selecting the top risks.
-  ### The number selected is the column in the data set corresponding to that metric
+  ### The number selected is the column in the data set corresponding to that metric   
   MethodColumn = if (method == "Total Risk"){
-    6
+    17
   }  else if (method == "Impact Risk"){
-    4
+    15
   } else if (method == "Recovery Lag"){
-    5
+    16
   }
   
   ### Switch between different percentage linkages
@@ -90,7 +229,7 @@ graph_obj <- function(data, InSector, InPressure, InEco, method, percent){
     5
   } else if (percent == "50%"){
     2
-  }
+  }    
   
   ### Function to perform the calculations of the linkage chains once the correct data set is selected
   RiskFilter = function (dataset){
@@ -129,17 +268,20 @@ graph_obj <- function(data, InSector, InPressure, InEco, method, percent){
     RiskFilter(data1)
   }
   
+  ## change the order so that selected rows are first in the dataset. They are therefore drawn first    
   data$Selected = ifelse (data$key %in% dataselected$key, 1 , 2)
   data = data[order (data$Selected), ]
   
-  
+  ### is that chain selected? If so, it will be red and thick  
   data$Colour = ifelse (data$key %in% dataselected$key, 
                         paste0 (data$Links, " [penwidth = 20, color = red]; ", sep = " "),
-                        paste0 (data$Links, " [penwidth = 2, color = black];", sep = " "))  
+                        paste0 (data$Links, " [penwidth = 1, color = black];", sep = " "))  
+  
   
   Links = subset(data, select = Colour)
   LinksAll <- capture.output(print(Links, row.names = FALSE))[-1]
   LinksAll2 <- paste(LinksAll,"", collapse= " " )
+  
   
   
   obj <- paste0("digraph{ 
@@ -200,10 +342,11 @@ graph_obj <- function(data, InSector, InPressure, InEco, method, percent){
                 edge [arrowhead = none]
                 ",LinksAll2,"
 }", sep= " ")
-
+  
+  
   }
 
-#write (obj, "H:\\ODEMM\\Analysis\\Network Plot\\Horrendogram\\objline.dot" )
+write (obj, "H:\\ODEMM\\Analysis\\Network Plot\\Horrendogram\\objmsfd.dot" )
 
 
 ## ui.R ----
@@ -318,12 +461,11 @@ ui <- fluidPage(
                          '50%' = '50%'))),
     
     
-    
     # Main panel for displaying outputs ----
     fluidRow(
       
       # Output: horrendogram ----
-      grVizOutput(outputId = "horrendogram", width = "95%", height = "700px")
+      grVizOutput(outputId = "horrendogram", width = "100%", height = "700px")
     )
   ))
 
@@ -344,6 +486,3 @@ server <- function (input, output){
 # knit UI and server together
 
 shinyApp (ui =ui, server = server)
-
-
-

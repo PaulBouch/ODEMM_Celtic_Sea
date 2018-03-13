@@ -141,7 +141,31 @@ graph_obj <- function(data, InSector, InPressure, InEco, method, percent){
   LinksAll <- capture.output(print(Links, row.names = FALSE))[-1]
   LinksAll2 <- paste(LinksAll,"", collapse= " " )
   
+  ######################
+  #### Which nodes should be highlighted
   
+  SelectedNodes = if (nrow(data) != nrow(dataselected)){
+    dataselected$Sector2 = paste("'", dataselected$Sector, "';")
+    dataselected$Pressure2 = paste("'", dataselected$Pressure, "';")
+    dataselected$Ecological.Characteristic2 = paste("'", dataselected$Ecological.Characteristic, "';")
+    
+    
+    NodesSector = unique(subset(dataselected, select = Sector2))
+    NodesPressure = unique(subset(dataselected, select = Pressure2))
+    NodesEco = unique(subset(dataselected, select = Ecological.Characteristic2))
+    
+    NodesSector2 <- capture.output(print(NodesSector, row.names = FALSE))[-1]
+    NodesPressure2 <- capture.output(print(NodesPressure, row.names = FALSE))[-1]
+    NodesEco2 <- capture.output(print(NodesEco, row.names = FALSE))[-1]
+
+    NodesSector3 <- paste(NodesSector2,"", collapse= " " )
+    NodesPressure3 <- paste(NodesPressure2,"", collapse= " " )
+    NodesEco3 <- paste(NodesEco2,"", collapse= " " )
+    
+    paste(NodesSector3, NodesPressure3, NodesEco3)
+  } else { " "}
+  
+########## create object to make plot
   obj <- paste0("digraph{ 
                 graph [bgcolor='white'; 
                 overlap=true;
@@ -149,7 +173,10 @@ graph_obj <- function(data, InSector, InPressure, InEco, method, percent){
                 rankdir=LR;
                 concentrate=true]
                 
-                node [color=Black,fontname=Helvetica,shape=box, fontsize =150, style=bold]
+                node [fontname=Helvetica,shape=box, fontsize =150, style=bold, style = filled, color = black, penwidth = 10,fillcolor = yellow]                
+                {" ,SelectedNodes, " }
+                
+                node [fontname=Helvetica,shape=box, fontsize =150, style=bold, style = empty, color = black, penwidth = 10]
                 
                 subgraph habitats {' Abyssal Sediment '; ' Abyssal Rock & Reef '; ' Bathyal Sediment ';' Bathyal Rock & Reef ';
                 ' Slope Sediment ';' Slope Rock & Reef ';' Shelf Sediment ';' Shelf Rock & Reef ';' Shallow Mud ';' Shallow Sediment ';' Shallow Rock & Reef ';

@@ -6,6 +6,7 @@ options(max.print=10000000)
 
 raw = read.csv("Data//Celtic SeaS Pressure Assessment PB 28_02_18.csv")
 
+
 raw = raw[!raw$Overlap == "NO", ]
 
 raw$Sector = as.character(raw$Sector)
@@ -142,7 +143,7 @@ raw$Descriptors = ifelse (is.na(raw$D8),  raw$Descriptors,
                           ifelse(is.na(raw$Descriptors),"'D8. Contaminants'",paste(raw$Descriptors, "; 'D8. Contaminants'" )))
 
 raw$Descriptors = ifelse (is.na(raw$D9),  raw$Descriptors,
-                          ifelse(is.na(raw$Descriptors),"'D9. Contaminants in Seafood'",paste(raw$Descriptors, "; 'D9. Contaminants in Seafoods'" )))
+                          ifelse(is.na(raw$Descriptors),"'D9. Contaminants in Seafood'",paste(raw$Descriptors, "; 'D9. Contaminants in Seafood'" )))
 
 raw$Descriptors = ifelse (is.na(raw$D10),  raw$Descriptors,
                           ifelse(is.na(raw$Descriptors),"'D10. Marine Litter'",paste(raw$Descriptors, "; 'D10. Marine Litter'" )))
@@ -158,7 +159,7 @@ raw$Descriptors = ifelse (is.na(raw$Descriptors), "", paste0(" -> {", raw$Descri
 
 raw$Links = paste("'", raw$Sector, "'", " -> ", "'", raw$Pressure, "'", " -> ", "'", raw$Ecological.Characteristic, "'" , raw$Descriptors )
 
-data = raw[ , c(1:8,32)]
+data = raw[ , c(1:8,20:30, 32)]
 
 # add columns with the values asscociated with the clasifactions
 # score each rating according to Knight et al 2015
@@ -203,7 +204,7 @@ data$key = paste0(data$Sector, data$Pressure, data$Ecological.Characteristic)
 graph_obj <- function(data, InSector, InPressure, InEco, method, percent){
   
   # For testing
-  # InSector = "Fishing"
+  # InSector = "Research"
   # percent = "All"
   # method = "Total Risk"
   # InPressure = "All Pressures"
@@ -212,11 +213,11 @@ graph_obj <- function(data, InSector, InPressure, InEco, method, percent){
   ### Switch between different ways of selecting the top risks.
   ### The number selected is the column in the data set corresponding to that metric   
   MethodColumn = if (method == "Total Risk"){
-    17
+    28
   }  else if (method == "Impact Risk"){
-    15
+    26
   } else if (method == "Recovery Lag"){
-    16
+    27
   }
   
   ### Switch between different percentage linkages
@@ -230,6 +231,8 @@ graph_obj <- function(data, InSector, InPressure, InEco, method, percent){
   } else if (percent == "50%"){
     2
   }    
+  
+  
   
   ### Function to perform the calculations of the linkage chains once the correct data set is selected
   RiskFilter = function (dataset){
@@ -282,6 +285,45 @@ graph_obj <- function(data, InSector, InPressure, InEco, method, percent){
   LinksAll <- capture.output(print(Links, row.names = FALSE))[-1]
   LinksAll2 <- paste(LinksAll,"", collapse= " " )
   
+  ######################
+  #### Which nodes should be highlighted
+  
+  SelectedNodes = if (nrow(data) != nrow(dataselected)){
+    dataselected$Sector2 = paste("'", dataselected$Sector, "';")
+    dataselected$Pressure2 = paste("'", dataselected$Pressure, "';")
+    dataselected$Ecological.Characteristic2 = paste("'", dataselected$Ecological.Characteristic, "';")
+    
+    
+    NodesSector = unique(subset(dataselected, select = Sector2))
+    NodesPressure = unique(subset(dataselected, select = Pressure2))
+    NodesEco = unique(subset(dataselected, select = Ecological.Characteristic2))
+    
+    NodesSector2 <- capture.output(print(NodesSector, row.names = FALSE))[-1]
+    NodesPressure2 <- capture.output(print(NodesPressure, row.names = FALSE))[-1]
+    NodesEco2 <- capture.output(print(NodesEco, row.names = FALSE))[-1]
+    
+    
+    NodeD1 = if (length(unique (na.omit(dataselected$D1)))!=0){ paste(unique (na.omit(dataselected$D1)), ";")}
+    NodeD2 = if (length(unique (na.omit(dataselected$D2)))!=0){ paste(unique (na.omit(dataselected$D2)), ";")}
+    NodeD3 = if (length(unique (na.omit(dataselected$D3)))!=0){ paste(unique (na.omit(dataselected$D3)), ";")}
+    NodeD4 = if (length(unique (na.omit(dataselected$D4)))!=0){ paste(unique (na.omit(dataselected$D4)), ";")}
+    NodeD5 = if (length(unique (na.omit(dataselected$D5)))!=0){ paste(unique (na.omit(dataselected$D5)), ";")}
+    NodeD6 = if (length(unique (na.omit(dataselected$D6)))!=0){ paste(unique (na.omit(dataselected$D6)), ";")}
+    NodeD7 = if (length(unique (na.omit(dataselected$D7)))!=0){ paste(unique (na.omit(dataselected$D7)), ";")}
+    NodeD8 = if (length(unique (na.omit(dataselected$D8)))!=0){ paste(unique (na.omit(dataselected$D8)), ";")}
+    NodeD9 = if (length(unique (na.omit(dataselected$D9)))!=0){ paste(unique (na.omit(dataselected$D9)), ";")}
+    NodeD10 = if (length(unique (na.omit(dataselected$D10)))!=0){ paste(unique (na.omit(dataselected$D10)), ";")}
+    NodeD11 = if (length(unique (na.omit(dataselected$D11)))!=0){ paste(unique (na.omit(dataselected$D11)), ";")}
+    
+    NodesDesc = paste(NodeD1, NodeD2, NodeD3, NodeD4, NodeD5, NodeD6,
+                      NodeD7, NodeD8, NodeD9, NodeD10, NodeD11)
+    
+    NodesSector3 <- paste(NodesSector2,"", collapse= " " )
+    NodesPressure3 <- paste(NodesPressure2,"", collapse= " " )
+    NodesEco3 <- paste(NodesEco2,"", collapse= " " )
+    
+    paste(NodesSector3, NodesPressure3, NodesEco3, NodesDesc)
+  } else { " "}
   
   
   obj <- paste0("digraph{ 
@@ -291,7 +333,10 @@ graph_obj <- function(data, InSector, InPressure, InEco, method, percent){
                 rankdir=LR;
                 concentrate=true]
                 
-                node [color=Black,fontname=Helvetica,shape=box, fontsize =150, style=bold]
+                node [fontname=Helvetica,shape=box, fontsize =150, style=bold, style = filled, color = black, penwidth = 10,fillcolor = yellow]                
+                {" ,SelectedNodes, " }
+                
+                node [fontname=Helvetica,shape=box, fontsize =150, style=bold, style = empty, color = black, penwidth = 10]
                 
                 subgraph habitats {' Abyssal Sediment '; ' Abyssal Rock & Reef '; ' Bathyal Sediment ';' Bathyal Rock & Reef ';
                 ' Slope Sediment ';' Slope Rock & Reef ';' Shelf Sediment ';' Shelf Rock & Reef ';' Shallow Mud ';' Shallow Sediment ';' Shallow Rock & Reef ';
@@ -336,6 +381,7 @@ graph_obj <- function(data, InSector, InPressure, InEco, method, percent){
                 subgraph elasmo {' Deep Sea Elasmo ';' Demersal Elasmo ';' Pelagic Elasmo ' }
                 
                 
+                
                 nodesep=1.5 // increases the separation between nodes
                 ranksep= 25
                 
@@ -344,9 +390,11 @@ graph_obj <- function(data, InSector, InPressure, InEco, method, percent){
 }", sep= " ")
   
   
+  # grViz(obj)  
+  
   }
 
-write (obj, "H:\\ODEMM\\Analysis\\Network Plot\\Horrendogram\\objmsfd.dot" )
+#write (obj, "H:\\ODEMM\\Analysis\\Network Plot\\Horrendogram\\objmsfd.dot" )
 
 
 ## ui.R ----

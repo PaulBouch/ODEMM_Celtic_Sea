@@ -159,7 +159,7 @@ raw$Descriptors = ifelse (is.na(raw$Descriptors), "", paste0(" -> {", raw$Descri
 
 raw$Links = paste("'", raw$Sector, "'", " -> ", "'", raw$Pressure, "'", " -> ", "'", raw$Ecological.Characteristic, "'" , raw$Descriptors )
 
-data = raw[ , c(1:8,20:30, 32)]
+data = raw[ , c(1:8,20:32)]
 
 # add columns with the values asscociated with the clasifactions
 # score each rating according to Knight et al 2015
@@ -201,23 +201,57 @@ data$key = paste0(data$Sector, data$Pressure, data$Ecological.Characteristic)
 ####   Function to produce plot
 
 
-graph_obj <- function(data, InSector, InPressure, InEco, method, percent){
+graph_obj <- function(data, InSector, InPressure, InEco, InDesc, method, percent){
   
   # For testing
-  # InSector = "Research"
+  # InSector = "All Sectors"
   # percent = "All"
   # method = "Total Risk"
   # InPressure = "All Pressures"
   # InEco = "All"
+  # InDesc = "D1. Biological Diversity"
+  
+  #### Swicth between different MSFD Descriptors
+  ### Number selected is the column of that descriptor.
+  ### Then we can search to make sure it's not null and if so, include it in the dataselected
+  
+  DescColumn = if (InDesc == "All Descriptors"){
+    20
+  } else if (InDesc == "D1. Biological Diversity"){
+    9
+  } else if (InDesc == "D2. Non-indigenous Species"){
+    10
+  } else if (InDesc == "D3. Commercial Fishing"){
+    11
+  } else if (InDesc == "D4. Food Webs"){
+    12
+  } else if (InDesc == "D5. Eutrophication"){
+    13
+  } else if (InDesc == "D6. Sea-floor Integrity"){
+    14
+  } else if (InDesc == "D7. Hydrographical Conditions"){
+    15
+  } else if (InDesc == "D8. Contaminants"){
+    16
+  } else if (InDesc == "D9. Contaminants in Seafood"){
+    17
+  } else if (InDesc == "D10. Marine Litter"){
+    18
+  } else if (InDesc == "D11. Underwater Noise"){
+    19
+  }
+  
+  
+  
   
   ### Switch between different ways of selecting the top risks.
   ### The number selected is the column in the data set corresponding to that metric   
   MethodColumn = if (method == "Total Risk"){
-    28
+    29
   }  else if (method == "Impact Risk"){
-    26
-  } else if (method == "Recovery Lag"){
     27
+  } else if (method == "Recovery Lag"){
+    28
   }
   
   ### Switch between different percentage linkages
@@ -233,9 +267,11 @@ graph_obj <- function(data, InSector, InPressure, InEco, method, percent){
   }    
   
   
+  dataset = data
   
   ### Function to perform the calculations of the linkage chains once the correct data set is selected
   RiskFilter = function (dataset){
+    dataset = dataset[!is.na(dataset[ ,DescColumn]) , ]
     AllRisk = sum (dataset[ , MethodColumn])
     dataset$relRisk = dataset[ , MethodColumn]/AllRisk
     dataset = dataset[order (-dataset$relRisk), ]
@@ -336,7 +372,7 @@ graph_obj <- function(data, InSector, InPressure, InEco, method, percent){
                 node [fontname=Helvetica,shape=box, fontsize =150, style=bold, style = filled, color = black, penwidth = 10,fillcolor = yellow]                
                 {" ,SelectedNodes, " }
                 
-                node [fontname=Helvetica,shape=box, fontsize =150, style=bold, style = empty, color = black, penwidth = 10]
+                node [fontname=Helvetica,shape=box, fontsize =150, style=bold, style = empty, color = black, penwidth = 10]                
                 
                 subgraph habitats {' Abyssal Sediment '; ' Abyssal Rock & Reef '; ' Bathyal Sediment ';' Bathyal Rock & Reef ';
                 ' Slope Sediment ';' Slope Rock & Reef ';' Shelf Sediment ';' Shelf Rock & Reef ';' Shallow Mud ';' Shallow Sediment ';' Shallow Rock & Reef ';
@@ -494,6 +530,23 @@ ui <- fluidPage(
                          'Toothed Whales'='Toothed Whales'))),
     
     column(3, offset = 1,
+           selectInput(inputId = "Descriptor",
+                       label = "MSFD Descriptor:",
+                       c('All Descriptors',
+                         'D1. Biological Diversity' = 'D1. Biological Diversity',
+                         'D2. Non-indigenous Species' = 'D2. Non-indigenous Species',
+                         'D3. Commercial Fishing' = 'D3. Commercial Fishing',
+                         'D4. Food Webs' = 'D4. Food Webs',
+                         'D5. Eutrophication' = 'D5. Eutrophication',
+                         'D6. Sea-floor Integrity' = 'D6. Sea-floor Integrity',
+                         'D7. Hydrographical Conditions' = 'D7. Hydrographical Conditions',
+                         'D8. Contaminants' = 'D8. Contaminants', 
+                         'D9. Contaminants in Seafood' = 'D9. Contaminants in Seafood',
+                         'D10. Marine Litter' = 'D10. Marine Litter',
+                         'D11. Underwater Noise' = 'D11. Underwater Noise'))),
+    
+    
+    column(3, offset = 0.5,
            selectInput(inputId = "Method",
                        label = "Risk Assessment:",
                        c('Total Risk' = "Total Risk",
@@ -524,7 +577,7 @@ server <- function (input, output){
   
   output$horrendogram <- renderGrViz(
     grViz(
-      graph_obj(data, input$Sector, input$Pressure, input$Ecological, input$Method, input$Percent)
+      graph_obj(data, input$Sector, input$Pressure, input$Ecological, input$Descriptor ,input$Method, input$Percent)
     )
   )
   

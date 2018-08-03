@@ -6,7 +6,7 @@ require (pvclust)
 require (reshape2)
 
 # read in data
-data = read.csv("Data//Celtic SeaS Pressure Assessment PB 28_02_18.csv")
+data = read.csv("Data//Celtic SeaS Pressure Assessment PB 29_06_18.csv")
 
 # remove rows/linkage chains with No overlap
 data = data[!data$Overlap == "NO", ]
@@ -56,8 +56,11 @@ data$Ryr =  (data$Resilience.Score + data$Persistence.Score) *100
 
 data$TotalRisk = data$ImpactRisk * data$RecoveryLag
 
+data[data$Ecological.Characteristic == "Demersal Elasmo"] <- "Demersal Elasmobranch"
 
 ### set up data frame for some of the initial plots
 BPIS = data
 names(BPIS)[names(BPIS) == 'Ecological.Characteristic'] <- 'EcoChar'
 
+data[data$Ecological.Characteristic == "Demersal Elasmo"] <- "Demersal Elasmobranch"
+BPIS[BPIS$EcoChar == "Demersal Elasmo"] <- "Demersal Elasmobranch"

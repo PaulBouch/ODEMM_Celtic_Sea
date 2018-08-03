@@ -193,7 +193,7 @@ Ecoa = ggplot (Eco, aes (x= reorder(EcoChar, AvgTR), y = Connect))+
   theme(axis.title.y=element_blank(),
         axis.text.y = element_text(size=12),
         axis.text.x = element_text(size=12),
-        plot.margin = unit(c(0,0,5,17), "mm"))
+        plot.margin = unit(c(0,0,5,7), "mm"))
 
 Ecob = ggplot (BoxPlotEco , aes(x= reorder(EcoChar, AvgTR), y = ImpactRisk))+
   geom_boxplot(fill = colorRampPalette(brewer.pal(9,"Pastel1"))(28))+
@@ -230,7 +230,7 @@ Ecod = ggplot (BoxPlotEco, aes(x= reorder(EcoChar, AvgTR), y = Ryr))+
         axis.text.x = element_text(size=12),
         plot.margin = unit(c(0,5,5,0), "mm"))
 
-BoxEco = grid.arrange(Ecoa, Ecob , Ecoc, Ecod, ncol = 4, widths = c(9, 4, 4, 4))
+BoxEco = grid.arrange(Ecoa, Ecob , Ecoc, Ecod, ncol = 4, widths = c(8, 4, 4, 4))
 
 #pdf ("Box Plot Eco.pdf", width = 12, height = 8)
 grid.arrange(Ecoa, Ecob , Ecoc, Ecod, ncol = 4, widths = c(9, 4, 4, 4))
@@ -240,11 +240,11 @@ grid.arrange(Ecoa, Ecob , Ecoc, Ecod, ncol = 4, widths = c(9, 4, 4, 4))
 ### Combine all together
 #########################################################
 
-#pdf ("Box Plot Crazy Arrange.pdf", width = 12, height = 18)
+pdf ("Box Plot Crazy Arrange EMF 29_06_18.pdf", width = 12, height = 18)
 grid.arrange(BoxSector, BoxPressure, BoxEco, ncol = 1, heights =  c(6,7,8))
 grid.text("a) Sectors", x = unit(0.02, "npc"), y = unit(0.989, "npc"), just = "left", gp=gpar(fontsize=16))
 grid.text("b) Pressures", x = unit(0.02, "npc"), y = unit(0.71, "npc"), just = "left", gp=gpar(fontsize=16))
-grid.text("c) Ecological", x = unit(0.02, "npc"), y = unit(0.395, "npc"), just = "left", gp=gpar(fontsize=15))
-grid.text("Characteristic", x = unit(0.035, "npc"), y = unit(0.383, "npc"), just = "left", gp=gpar(fontsize=15))
-#dev.off()
+grid.text("c) Ecological Characteristic", x = unit(0.02, "npc"), y = unit(0.388, "npc"), just = "left", gp=gpar(fontsize=12))
+#grid.text("Characteristic", x = unit(0.035, "npc"), y = unit(0.383, "npc"), just = "left", gp=gpar(fontsize=13))
+dev.off()
 

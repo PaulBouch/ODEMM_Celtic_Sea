@@ -18,8 +18,8 @@ BPIS$EcoChar<-factor(BPIS$EcoChar,
                                "Bathyal Rock & Reef", "Bathyal Sediment",
                                "Abyssal Rock & Reef", "Abyssal Sediment",
                                "Toothed Whales", "Baleen Whales", "Seals", "Seabirds", "Reptiles", "Cephalopods", 
-                               "Demersal Fish", "Demersal Elasmo", "Pelagic Fish", "Pelagic Elasmo",
-                               "Deep Sea Fish", "Deep Sea Elasmo"))
+                               "Demersal Fish", "Demersal Elasmobranch", "Pelagic Fish", "Pelagic Elasmobranch",
+                               "Deep Sea Fish", "Deep Sea Elasmobranch"))
 
 ### Pressures
 
